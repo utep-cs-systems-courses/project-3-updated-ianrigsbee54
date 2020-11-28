@@ -93,7 +93,7 @@ void annoyEars()
   held if you want buzzer to be off*/
 void reset()
 {
-  
+  buttonState = 0;
   buzzer_set_period(0);
   count = 0;
   red_on = 0;
