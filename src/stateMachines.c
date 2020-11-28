@@ -5,22 +5,23 @@
 #include "lcdutils.h"
 #include "lcddraw.h"
 
-
-static char count = 0;
-static char buttonState = 0;
+char count = 0;
+char buttonState = 0;
+int sirenState = 0;
+int period = 1500;
 /*as button is pressed we increment to three starting from 0*/
 void countToThree()
 {
   switch(count){
     /*0*/
   case 0:
-    drawString8x12(50,50,"zero", COLOR_WHITE, COLOR_BLACK);
+    drawString8x12(50, 50,"Zero", COLOR_WHITE, COLOR_BLACK);
     count = 1;
     break;
     
   case 1:
     clearScreen(COLOR_BLACK);
-    drawString8x12(50,50,"One", COLOR_WHITE, COLOR_BLACK);
+    drawString8x12(50, 50,"One", COLOR_WHITE, COLOR_BLACK);
     count = 2;
     break;
     
@@ -72,32 +73,35 @@ void dimLights()
   led_changed = 1;/*again update after we change lights*/
   led_update();
 }
+short convertPeriod(short period)
+{
+  return 2000000/Note;
+}
 /*will continuously annoy your ears until the period reaches 0 where it will start all over*/
 void annoyEars()
-{
-  static int period = 1500; /*2000000/1500 = 1333Hz*/ 
-  static char annoyanceState = 0;
-  switch(annoyanceState){
+{ 
+  switch(sirenState){
   case 0:
     period+=200; /*increment the annoying sound*/
-    annoyanceState++;
+    sirenState++;
     break;
   case 1:
-    period-=450; /*then decrement*/
-    annoyanceState = 0;
+    period-=300; /*then decrement*/
+    sirenState = 0;
     break;
   }
-  buzzer_set_period(period);
+  short sirenHz = convertPeriod(period);
+  buzzer_set_period(sirenHz);
 }
 /*resets everything, lights will be reset, the count will be reset, but the button will need to be 
   held if you want buzzer to be off*/
 void reset()
 {
+  clearScreen(COLOR_BLACK);
   buttonState = 0;
   buzzer_set_period(0);
   count = 0;
   red_on = 0;
-  green_on = 0;
   led_changed = 1; /*since we reset everything we have to update lights*/
   led_update();
 }
