@@ -36,14 +36,12 @@ switch_interrupt_handler()
   SW3down = (p2val & SW3) ? 0 : 1;
   SW4down = (p2val & SW4) ? 0 : 1;
   if(SW1down){ 
-    countToThree();
-    bttnState = 1;
+    changeButtonState(1);
   }else if(SW2down){
-    bttnState = 2;
+    changeButtonState(2);
   }else if(SW3down){
-    reset();
-    bttnState = 3;
+    changeButtonState(3);
   }else{
-    bttnState = 4;
+    changeButtonState(4);
   }
 }

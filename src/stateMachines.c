@@ -2,40 +2,45 @@
 #include "stateMachines.h"
 #include "led.h"
 #include "buzzer.h"
+#include "lcdutils.h"
+#include "lcddraw.h"
 
 
 static char count = 0;
+static char buttonState = 0;
 /*as button is pressed we increment to three starting from 0*/
 void countToThree()
 {
   switch(count){
     /*0*/
   case 0:
-    red_on = 0;
-    green_on = 0;
+    drawString8x12(50,50,"zero", COLOR_WHITE, COLOR_BLACK);
     count = 1;
     break;
     
   case 1:
-    red_on = 1; /*red for 1*/
-    green_on = 0;
+    clearScreen(COLOR_BLACK);
+    drawString8x12(50,50,"One", COLOR_WHITE, COLOR_BLACK);
     count = 2;
     break;
     
   case 2:
-    red_on = 0;
-    green_on = 1;/*green for 2*/
+    clearScreen(COLOR_BLACK);
+    drawString8x12(50, 50, "Two", COLOR_WHITE, COLOR_BLACK);
     count = 3;
     break;
     
   case 3:
-    red_on = 1;
-    green_on = 1;/*and both for 3*/
+    clearScreen(COLOR_BLACK);
+    drawString8x12(50, 50, "Three", COLOR_WHITE, COLOR_BLACK);
     count = 0;
     break;
   }
-  led_changed = 1;/*we update the lights after each break*/
-  led_update();
+}
+int changeButtonState(char bttn)
+{
+  buttonState = bttn;
+  return 1;
 }
 /*dims lights to 75%, as we call dimLights() really fast through the wdInterrupt one state
 will be off as to achieve the desired effect of 75%*/
@@ -88,6 +93,7 @@ void annoyEars()
   held if you want buzzer to be off*/
 void reset()
 {
+  
   buzzer_set_period(0);
   count = 0;
   red_on = 0;
