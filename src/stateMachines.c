@@ -6,6 +6,7 @@
 #include "lcddraw.h"
 #include "switches.h"
 
+
 static char count = 0;
 static char sirenState = 0;
 short period = 1500;
@@ -17,27 +18,29 @@ void countToThree()
     /*0*/
   case 0:
     drawString8x12(20, 10,"0", COLOR_WHITE, COLOR_BLACK);
-    count = 1;
+    count++;
     break;
     
   case 1:
     drawString8x12(20, 30,"1", COLOR_WHITE, COLOR_BLACK);
-    count = 2;
+    count++;
     break;
     
   case 2:
     drawString8x12(20, 50, "2", COLOR_WHITE, COLOR_BLACK);
-    count = 3;
+    count++;
     break;
     
   case 3:
     drawString8x12(20, 70, "3", COLOR_WHITE, COLOR_BLACK);
-    count = 0;
+    count++;
     break;
+  default:
+    clearScreen(COLOR_BLACK);
+    count = 0;
   }
-  clearScreen(COLOR_BLACK);
+  
 }
-
 /*dims lights to 75%, as we call dimLights() really fast through the wdInterrupt one state
 will be off as to achieve the desired effect of 75%*/
 
@@ -51,15 +54,9 @@ void siren()
   switch(sirenState){
   case 0:
     period+=200; /*increment the annoying sound*/
-    sirenState++;
     break;
   case 1:
     period-=200; /*then decrement*/
-    sirenState = 0;
-    break;
-  default:
-    sirenState = -1;
-    buzzer_set_period(0);
     break;
   }
   short sirenHz = convertPeriod(period);
@@ -81,12 +78,12 @@ void sirenStateAdvance()
   switch(sirenState){
   case 0:
     siren();
-    sirenShapeAdvance;
+    sirenShapeAdvance();
     sirenState++;
     break;
   case 1:
     siren();
-    sirenShapeAdvance;
+    sirenShapeAdvance();
     sirenState--;
     break;
   }
@@ -110,14 +107,13 @@ void dim25()
     red_on = 1;
     dimState++;
     break;
-  case 1:
-    dimState++;
-  case 2:
-    dimState++;
+  case 1: 
+  case 2: 
   case 3:
     red_on = 0;
     dimState = 0;
     break;
   }
+  led_changed = 1;
   led_update();
 }

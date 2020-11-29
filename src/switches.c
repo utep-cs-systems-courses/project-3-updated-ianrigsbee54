@@ -3,6 +3,7 @@
 #include "led.h"
 #include "stateMachines.h"
 #include "buzzer.h"
+#include "main.h"
 
 char SW1down, SW2down, SW3down, SW4down, switch_state_changed;
 char bttnState;
@@ -41,7 +42,7 @@ switch_interrupt_handler()
   }else if(SW2down){
     bttnState = 2;
   }else if(SW3down){
-    reset();
+    bttnState = 3;
   }else if (SW4down){
     bttnState = 4;
   }

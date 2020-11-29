@@ -13,24 +13,14 @@ short redrawScreen = 1;
 void wdt_c_handler()
 {
   static int blinkCount = 0;
-  if(++blinkCount == 250 && bttnState == 1){/*1.5 seconds*/
-    countToThree();
+  if(++blinkCount == 250){
     blinkCount = 0;
     redrawScreen = 1;
-  }else if(++blinkCount == 62 && bttnState == 2){
-    dim25();
-    redrawScreen = 1;
-    blinkCount = 0;
-  }else if(++blinkCount == 250 && bttnState == 4){
-    sirenStateAdvance();
-    redrawScreen = 1;
-    blinkCount = 0;
   }
 }
-
-void main(){
-  P1DIR |= LED_GREEN;
-  P1OUT |= LED_GREEN;
+void main(void)
+{
+  green_on = 1;
   configureClocks();		/* setup master oscillator, CPU & peripheral clocks */
   enableWDTInterrupts();/* enable periodic interrupt */
   led_init();
@@ -42,9 +32,23 @@ void main(){
   while(1){
     if(redrawScreen){
       redrawScreen = 0;
+      switch(bttnState){
+      case 1:
+	countToThree();
+	break;
+      case 2:
+	dim25();
+	break;
+      case 3:
+	reset();
+	break;
+      case 4:
+	sirenStateAdvance();
+	break;
+      }
     }
-    P1OUT &= ~LED_GREEN;
+    green_on = 0;
     or_sr(0x10);
-    P1OUT |= LED_GREEN;
+    green_on = 1;
   }
 }
