@@ -8,7 +8,7 @@
 char count = 0;
 char buttonState = 0;
 int sirenState = 0;
-int period = 1500;
+short period = 1500;
 /*as button is pressed we increment to three starting from 0*/
 void countToThree()
 {
@@ -38,10 +38,9 @@ void countToThree()
     break;
   }
 }
-int changeButtonState(char bttn)
+void changeButtonState(char bttn)
 {
   buttonState = bttn;
-  return 1;
 }
 /*dims lights to 75%, as we call dimLights() really fast through the wdInterrupt one state
 will be off as to achieve the desired effect of 75%*/
@@ -75,7 +74,7 @@ void dimLights()
 }
 short convertPeriod(short period)
 {
-  return 2000000/Note;
+  return 2000000/period;
 }
 /*will continuously annoy your ears until the period reaches 0 where it will start all over*/
 void annoyEars()

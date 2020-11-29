@@ -7,6 +7,7 @@
 #ifndef lcdutils_included
 #define lcdutils_included
 
+#include "lcdtypes.h"
 typedef unsigned char u_char;
 typedef unsigned int u_int;
 

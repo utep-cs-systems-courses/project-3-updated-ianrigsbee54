@@ -4,7 +4,7 @@
 
 #ifndef lcddraw_included
 #define lcddraw_included
-
+#include "lcdtypes.h"
 /** Draw single pixel at col, row 
  *
  *  \param col Column to draw to

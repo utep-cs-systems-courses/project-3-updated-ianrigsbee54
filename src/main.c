@@ -3,9 +3,10 @@
 #include "led.h"
 #include "buzzer.h"
 #include "switches.h"
-#include "statemachines.h"
+#include "stateMachines.h"
 #include "lcddraw.h"
 #include "lcdutils.h"
+#include "lcdtypes.h"
 #define LED_GREEN BIT6
 
 short redrawScreen = 1;
@@ -26,7 +27,7 @@ void main(){
   enableWDTInterrupts();/* enable periodic interrupt */
   led_init();
   buzzer_init();
-  lcd_int();
+  lcd_init();
   switch_init();
   or_sr(0x8);/* CPU off, GIE on */
   clearScreen(COLOR_BLACK);
