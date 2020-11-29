@@ -12,7 +12,7 @@
  *  \param colorBGR Color of pixel in BGR
  */
 void drawPixel(u_char col, u_char row, u_int colorBGR);
-
+void drawPyramid(u_char center, u_int color);
 /** Fill rectangle
  *
  *  \param colMin Column start

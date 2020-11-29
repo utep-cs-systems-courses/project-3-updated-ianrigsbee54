@@ -10,13 +10,21 @@
 #define LED_GREEN BIT6
 
 short redrawScreen = 1;
-
 void wdt_c_handler()
 {
   static int blinkCount = 0;
-  if(++blinkCount == 250){
+  if(++blinkCount == 250 && bttnState == 1){/*1.5 seconds*/
+    countToThree();
     blinkCount = 0;
     redrawScreen = 1;
+  }else if(++blinkCount == 62 && bttnState == 2){
+    dim25();
+    redrawScreen = 1;
+    blinkCount = 0;
+  }else if(++blinkCount == 250 && bttnState == 4){
+    sirenStateAdvance();
+    redrawScreen = 1;
+    blinkCount = 0;
   }
 }
 
@@ -31,23 +39,8 @@ void main(){
   switch_init();
   or_sr(0x8);/* CPU off, GIE on */
   clearScreen(COLOR_BLACK);
-
   while(1){
     if(redrawScreen){
-      switch(buttonState){
-      case 1:
-	countToThree();
-	break;
-      case 2:
-	break;
-	/*i dunno yet*/
-      case 3:
-	reset();
-	break;
-      case 4:
-	annoyEars();
-	break;
-      }
       redrawScreen = 0;
     }
     P1OUT &= ~LED_GREEN;

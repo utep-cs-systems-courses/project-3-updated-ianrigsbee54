@@ -47,6 +47,24 @@ void clearScreen(u_int colorBGR)
   u_char h = screenHeight;
   fillRectangle(0, 0, screenWidth, screenHeight, colorBGR);
 }
+void drawPyramid(u_char center, u_int color)
+{
+  if(color == 1){
+    for(u_char r = 0; r < 15; r++){
+      for(u_char c = 0; c <= r; c++){
+	drawPixel(center + c, r, COLOR_BLUE);
+	drawPixel(center - c, r, COLOR_BLUE);
+      }
+    }
+  }else{
+    for(u_char r = 0; r < 15; r++){
+      for(u_char c = 0; c <= r; c++){
+	drawPixel(center + c, r, COLOR_RED);
+	drawPixel(center - c, r, COLOR_RED);
+      }
+    }
+  }
+}
 
 /** 5x7 font - this function draws background pixels
  *  Adapted from RobG's EduKit
@@ -77,18 +95,19 @@ void drawChar8x12(u_char rcol, u_char rrow, char c,
 {
   u_char col = 0;
   u_char row = 0;
-  u_char bit = 0x01;
+  u_char bit = 0x80;
   u_char oc = c - 0x20;
 
-  lcd_setArea(rcol, rrow, rcol + 7, rcol + 12);
+  lcd_setArea(rcol, rrow, rcol + 8, rcol + 12);
   while(row < 13){
-    while(col < 8){
-      u_int colorBGR = (font_8x12[oc][col] & bit) ? fgColorBGR : bgColorBGR;
+    while(col < 9){
+      u_int colorBGR = (font_8x12[oc][row] & bit) ? fgColorBGR : bgColorBGR;
       lcd_writeColor(colorBGR);
       col++;
+      bit >>= 1;
     }
     col = 0;
-    bit <<= 1;
+    bit = 0x80;
     row++;
   }
 }
@@ -122,7 +141,7 @@ void drawString8x12(u_char col, u_char row, char *string,
   u_char cols = col;
   while(*string) {
     drawChar8x12(cols, row, *string++, fgColorBGR, bgColorBGR);
-    cols+=9;
+    cols+=10;
   }
 }
 

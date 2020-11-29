@@ -1,16 +1,17 @@
 #ifndef stateMachine_included
 #define stateMachine_included
 
-char count;
-char buttonState;
-int sirenState;
+static char count;
+static char dimState;
+static char sirenState;
 short period;
 
 void countToThree();
-void changeButtonState(char bttn);
+void dim25();
 short convertperiod(short period);
-void dimLights();
-void annoyEars();
+void siren();
+void sirenShapeAdvance();
+void sirenStateAdvance();
 void reset();
 
 #endif // included

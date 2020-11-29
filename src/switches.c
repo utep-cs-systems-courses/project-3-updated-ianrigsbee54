@@ -4,7 +4,8 @@
 #include "stateMachines.h"
 #include "buzzer.h"
 
-char SW1down, SW2down, SW3down, SW4down, bttnState, switch_state_changed;
+char SW1down, SW2down, SW3down, SW4down, switch_state_changed;
+char bttnState;
 char switch_update_interrupt_sense()
 {
   char p2val = P2IN;
@@ -36,12 +37,12 @@ switch_interrupt_handler()
   SW3down = (p2val & SW3) ? 0 : 1;
   SW4down = (p2val & SW4) ? 0 : 1;
   if(SW1down){ 
-    changeButtonState(1);
+    bttnState = 1;
   }else if(SW2down){
-    changeButtonState(2);
+    bttnState = 2;
   }else if(SW3down){
-    changeButtonState(3);
-  }else{
-    changeButtonState(4);
+    reset();
+  }else if (SW4down){
+    bttnState = 4;
   }
 }
