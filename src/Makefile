@@ -12,7 +12,7 @@ AR		= msp430-elf-ar
 all: toy.elf 
 
 #additional rules for files
-toy.elf: ${COMMON_OBJECTS} p2_interrupt_handler.o switches.o main.o buzzer.o stateMachines.o led.o wdt_handler.o 
+toy.elf: ${COMMON_OBJECTS} p2_interrupt_handler.o switches.o main.o buzzer.o stateMachines.o led.o wdt_handler.o asPeriod.o 
 	${CC} ${CFLAGS} ${LDFLAGS} -o $@ $^ -lTimer -lLcd -lp2sw
 
 load: toy.elf

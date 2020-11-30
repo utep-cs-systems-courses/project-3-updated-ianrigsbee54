@@ -8,8 +8,7 @@
 
 
 static char count = 0;
-static char sirenState = 0;
-short period = 1500;
+char sirenState;
 static char dimState = 0;
 /*as button is pressed we increment to three starting from 0*/
 void countToThree()
@@ -44,19 +43,32 @@ void countToThree()
 /*dims lights to 75%, as we call dimLights() really fast through the wdInterrupt one state
 will be off as to achieve the desired effect of 75%*/
 
-short convertPeriod(short period)
+short convertPeriod(short pd)
 {
-  return 2000000/period;
+  return 2000000/pd;
 }
+/*
+short asPeriod(short pd)
+{
+  if(pd < 1501){
+    pd += 200;
+    return pd;
+  }else{
+    pd -= 200;
+    return pd;
+  }
+}
+*/
 /*will continuously annoy your ears until the period reaches 0 where it will start all over*/
 void siren()
 {
+  static short period = 1501;
   switch(sirenState){
   case 0:
-    period+=200; /*increment the annoying sound*/
+    period = asPeriod(period); /*increment the annoying sound*/
     break;
   case 1:
-    period-=200; /*then decrement*/
+    period = asPeriod(period); /*then decrement*/
     break;
   }
   short sirenHz = convertPeriod(period);
@@ -73,6 +85,7 @@ void sirenShapeAdvance()
     break;
   }
 }
+
 void sirenStateAdvance()
 {
   switch(sirenState){
@@ -88,6 +101,7 @@ void sirenStateAdvance()
     break;
   }
 }
+
 /*resets everything, lights will be reset, the count will be reset, but the button will need to be 
   held if you want buzzer to be off*/
 void reset()

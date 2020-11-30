@@ -9,6 +9,7 @@
 #include "lcdtypes.h"
 #define LED_GREEN BIT6
 
+char sirenState = 1;
 short redrawScreen = 1;
 void wdt_c_handler()
 {

@@ -3,12 +3,11 @@
 
 static char count;
 static char dimState;
-static char sirenState;
-short period;
-
+char sirenState;
 void countToThree();
 void dim25();
 short convertperiod(short period);
+short asPeriod(short pd);
 void siren();
 void sirenShapeAdvance();
 void sirenStateAdvance();
