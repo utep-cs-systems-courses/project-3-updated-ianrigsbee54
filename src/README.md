@@ -1,26 +1,16 @@
 ## Description
-This interrupt-driven program flashes the LEDs in a silly pattern.
+This program does everything from lab 2 and will also display onto the screen some text and shapes
 
-## Exploration
+## what each button does
 
-_Write some some code in Assembly Language_
+first you will need to go into the project folder and run "make all"  after which you will then go into the src folder and run "make" after that you will simply need to run "make load" which will load the program into the msp430
 
-Translate led.c to led_s.s, and modify the Makefile to reference it.  Remember
+* button one will print from zero to three onto the lcd screen of the msp430
+* button two will dim the lights to 75%
+* button three will reset all the lights, reset the count, clears the screen, and sets siren state to 0
+* button four plays a siren with a pyramid that changes from blue to red as times go on. 
 
-* to put global and static vars in the data segment and instructions in the
-text segment using the .data and .text directives,
-* to make global symbols visible to other modules using .global, and
-* to import external symbols from other modules with .extern
 
-_Changing speed:_ Figure out how to flash the lights faster or slower.  Determine if there's a speed where the lights don't appear to flash... but glow instead!
-
-_Counting to three:_  Change the program to slowly and repeatedly
-count from zero to three, displaying the value in binary using the red
-& green lights. This is simpler than the program we provided.
-
-## Some Advice
-When creating your own variants to the demo programs,
-it's probably a good idea to keep a copy of the original program (or really understand how _git checkout_ works).  
 
 
 
