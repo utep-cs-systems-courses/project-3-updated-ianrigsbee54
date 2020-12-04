@@ -10,22 +10,22 @@ void countToThree()
   switch(count){
     /*0*/
   case 0:
-    drawString8x12(20, 10,"0", COLOR_WHITE, COLOR_BLACK);
+    drawString11x16(20, 10,"0", COLOR_WHITE, COLOR_BLACK);
     count++;
     break;
     
   case 1:
-    drawString8x12(20, 30,"1", COLOR_WHITE, COLOR_BLACK);
+    drawString11x16(20, 35,"1", COLOR_WHITE, COLOR_BLACK);
     count++;
     break;
     
   case 2:
-    drawString8x12(20, 50, "2", COLOR_WHITE, COLOR_BLACK);
+    drawString11x16(20, 60, "2", COLOR_WHITE, COLOR_BLACK);
     count++;
     break;
     
   case 3:
-    drawString8x12(20, 70, "3", COLOR_WHITE, COLOR_BLACK);
+    drawString11x16(20, 85, "3", COLOR_WHITE, COLOR_BLACK);
     count++;
     break;
     

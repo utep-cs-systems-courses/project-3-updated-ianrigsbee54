@@ -3,7 +3,6 @@
 #include "led.h"
 #include "stateMachines.h"
 #include "buzzer.h"
-#include "main.h"
 
 char SW1down, SW2down, SW3down, SW4down, switch_state_changed;
 char bttnState;
