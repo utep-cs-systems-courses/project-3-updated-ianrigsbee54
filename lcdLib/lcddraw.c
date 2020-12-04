@@ -47,25 +47,6 @@ void clearScreen(u_int colorBGR)
   u_char h = screenHeight;
   fillRectangle(0, 0, screenWidth, screenHeight, colorBGR);
 }
-void drawPyramid(u_char center, u_int color)
-{
-  if(color == 1){
-    for(u_char r = 0; r < 15; r++){
-      for(u_char c = 0; c <= r; c++){
-	drawPixel(center + c, r, COLOR_BLUE);
-	drawPixel(center - c, r, COLOR_BLUE);
-      }
-    }
-  }else{
-    for(u_char r = 0; r < 15; r++){
-      for(u_char c = 0; c <= r; c++){
-	drawPixel(center + c, r, COLOR_RED);
-	drawPixel(center - c, r, COLOR_RED);
-      }
-    }
-  }
-}
-
 /** 5x7 font - this function draws background pixels
  *  Adapted from RobG's EduKit
  */
@@ -89,29 +70,27 @@ void drawChar5x7(u_char rcol, u_char rrow, char c,
     row++;
   }
 }
-/*basically the drawChar5x7 function except modified for the 8x12 font*/
+/*carbon copy of drawChar5x7 except modified for 8x12*/
 void drawChar8x12(u_char rcol, u_char rrow, char c,
 		  u_int fgColorBGR, u_int bgColorBGR)
 {
   u_char col = 0;
   u_char row = 0;
-  u_char bit = 0x80;
-  u_char oc = c - 0x20;
-
-  lcd_setArea(rcol, rrow, rcol + 8, rcol + 12);
+  u_char bit = 0x01;
+  u_char oc = c - 0x20; /*offset from font-8x12*/
+  
+  lcd_setArea(rcol, rrow, rcol + 7, rcol + 12);
   while(row < 13){
-    while(col < 9){
+    while(col < 8){
       u_int colorBGR = (font_8x12[oc][row] & bit) ? fgColorBGR : bgColorBGR;
       lcd_writeColor(colorBGR);
       col++;
-      bit >>= 1;
     }
     col = 0;
-    bit = 0x80;
+    bit <<= 1;
     row++;
   }
 }
-
 /** Draw string at col,row
  *  Type:
  *  FONT_SM - small (5x8,) FONT_MD - medium (8x12,) FONT_LG - large (11x16)
@@ -133,18 +112,16 @@ void drawString5x7(u_char col, u_char row, char *string,
     cols += 6;
   }
 }
-
-/*modified version of the drawString5x7 function used for the 8x12 font instead*/
+/*basically a carbon copy of drawString5x7*/
 void drawString8x12(u_char col, u_char row, char *string,
 		    u_int fgColorBGR, u_int bgColorBGR)
 {
   u_char cols = col;
   while(*string) {
     drawChar8x12(cols, row, *string++, fgColorBGR, bgColorBGR);
-    cols+=10;
+    cols+=9;
   }
 }
-
 /** Draw rectangle outline
  *  
  *  \param colMin Column start
