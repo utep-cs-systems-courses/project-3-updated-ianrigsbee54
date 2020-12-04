@@ -1,16 +1,10 @@
 #include <msp430.h>
 #include "stateMachines.h"
-#include "led.h"
-#include "buzzer.h"
-#include "lcdutils.h"
-#include "lcddraw.h"
-#include "switches.h"
 
-
-static char count = 0;
-char sirenState;
-static char dimState = 0;
-/*as button is pressed we increment to three starting from 0*/
+char count = 0;
+char dimState = 0;
+char sirenState = 0;
+/*as button is pressed we increment to three starting from 0 and prints onto the lcd screen*/
 void countToThree()
 {
   switch(count){
@@ -34,11 +28,11 @@ void countToThree()
     drawString8x12(20, 70, "3", COLOR_WHITE, COLOR_BLACK);
     count++;
     break;
+    
   default:
     clearScreen(COLOR_BLACK);
     count = 0;
   }
-  
 }
 /*dims lights to 75%, as we call dimLights() really fast through the wdInterrupt one state
 will be off as to achieve the desired effect of 75%*/
@@ -50,7 +44,7 @@ short convertPeriod(short pd)
 /*
 short asPeriod(short pd)
 {
-  if(pd < 1501){
+  if(pd <= 1500){
     pd += 200;
     return pd;
   }else{
@@ -62,7 +56,7 @@ short asPeriod(short pd)
 /*will continuously annoy your ears until the period reaches 0 where it will start all over*/
 void siren()
 {
-  static short period = 1501;
+  static short period = 1500;
   switch(sirenState){
   case 0:
     period = asPeriod(period); /*increment the annoying sound*/
@@ -71,9 +65,10 @@ void siren()
     period = asPeriod(period); /*then decrement*/
     break;
   }
-  short sirenHz = convertPeriod(period);
+  short sirenHz = convertPeriod(period); /*convert period into Hz*/
   buzzer_set_period(sirenHz);
 }
+/*advances our shape state with different colors*/
 void sirenShapeAdvance()
 {
   switch(sirenState){
@@ -85,7 +80,7 @@ void sirenShapeAdvance()
     break;
   }
 }
-
+/*
 void sirenStateAdvance()
 {
   switch(sirenState){
@@ -101,6 +96,7 @@ void sirenStateAdvance()
     break;
   }
 }
+*/
 
 /*resets everything, lights will be reset, the count will be reset, but the button will need to be 
   held if you want buzzer to be off*/
@@ -110,24 +106,23 @@ void reset()
   bttnState = 0;
   buzzer_set_period(0);
   count = 0;
-  red_on = 0;
-  led_changed = 1; /*since we reset everything we have to update lights*/
+  green_on = 0;
   led_update();
 }
-void dim25()
+/*red will be on for 75% of the time*/
+void dim75()
 {
   switch(dimState){
   case 0:
     red_on = 1;
     dimState++;
     break;
-  case 1: 
-  case 2: 
+  case 1:
+  case 2:
   case 3:
     red_on = 0;
     dimState = 0;
     break;
   }
-  led_changed = 1;
   led_update();
 }

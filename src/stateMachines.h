@@ -1,11 +1,19 @@
 #ifndef stateMachine_included
 #define stateMachine_included
+#include "led.h"
+#include "buzzer.h"
+#include "shape.h"
+#include "switches.h"
+#include "lcddraw.h"
+#include "switches.h"
+#include "lcdutils.h"
 
-static char count;
-static char dimState;
+char count;
+char dimState;
 char sirenState;
+
 void countToThree();
-void dim25();
+void dim75();
 short convertperiod(short period);
 short asPeriod(short pd);
 void siren();
