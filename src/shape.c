@@ -10,22 +10,25 @@ int compare(u_char a, u_char b)
   }
 }
 */
- /*draws a pyramid*/
-void drawPyramid(u_char center, u_int state)
+ /*draws a diamond*/
+void drawDiamond(u_char center, u_int state)
 {
-  if(state == 1){
-    for(u_char r = 0; r < 15; r++){
-      for(u_char c = 0; compare(c,r); c++){
-	drawPixel(center + c, r, COLOR_BLUE);
-	drawPixel(center - c, r, COLOR_BLUE);
-      }
-    }
+  u_int color;
+  if(state == 0){
+    color = COLOR_RED;
   }else{
-    for(u_char r = 0; r < 15; r++){
-      for(u_char c = 0; c <= r; c++){
-	drawPixel(center + c, r, COLOR_RED);
-	drawPixel(center - c, r, COLOR_RED);
-      }
+    color = COLOR_BLUE;
+  }
+  for(u_char r = 0; r < 15; r++){
+    for(u_char c = 0; compare(c,r); c++){
+      drawPixel(center + c, r, color);/*right triangle*/
+      drawPixel(center - c, r, color);/*left triangle*/
+    }
+  }
+  for(u_char c = 0; c < 15; c++){
+    for(u_char r = 15; r <= 30-c; r++){/*double rows in conditional for our bottom triangles*/
+      drawPixel(center + c, r, color);/*bottom right triangle*/
+      drawPixel(center - c, r, color);/*bottom left triangle*/
     }
   }
 }

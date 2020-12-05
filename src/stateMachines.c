@@ -73,10 +73,10 @@ void sirenShapeAdvance()
 {
   switch(sirenState){
   case 0:
-    drawPyramid(screenWidth/2, 0);
+    drawDiamond(screenWidth/2, 0);
     break;
   case 1:
-    drawPyramid(screenWidth/2, 1);
+    drawDiamond(screenWidth/2, 1);
     break;
   }
 }
